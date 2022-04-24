@@ -30,23 +30,30 @@ class Assistant(object):
 
     def recommend_film(self):
         recommendation = self.send_query(templates.film_query.format(self.user.favorite_film))
+        recommendation = recommendation.replace('\n\n','').split('\n')
+        recommendation = recommendation[random.randint(0,2)][3:]
         return (recommendation,
-                self.send_query(templates.query.format("the film" + recommendation), max_tokens=128, temperature=0.6))
+                self.send_query(templates.query.format("the film" + recommendation), max_tokens=256, temperature=0.4))
 
     def recommend_band(self):
         recommendation = self.send_query(templates.band_query.format(self.user.favorite_band))
+        recommendation = recommendation.replace('\n\n','').split('\n')
+        recommendation = recommendation[random.randint(0,4)][3:]
         return (recommendation, 
-                self.send_query(templates.query.format("the artist " + recommendation), max_tokens=128, temperature=0.6))
+                self.send_query(templates.query.format("the artist " + recommendation), max_tokens=256, temperature=0.4))
 
     def recommend_song(self):
-        return self.send_query(templates.song_query.format(self.user.favorite_band))
+        recommendation = self.send_query(templates.song_query.format(self.user.favorite_band))
+        recommendation = recommendation.replace('\n\n','').split('\n')
+        recommendation = recommendation[random.randint(0,2)][3:]
+        return recommendation
 
     def recommend_event(self):
         year = int(self.user.birth_year)+random.randint(15,50)
         year = int((year/10)*10)
         print("year: {}".format(year))
         recommendation = self.send_query(templates.historical_query.format(event_types[random.randint(0,1)], self.user.birth_place, year)).split('.')[0]
-        return (recommendation, self.send_query(templates.query.format(recommendation),max_tokens=128, temperature=0.6))
+        return (recommendation, self.send_query(templates.query.format(recommendation),max_tokens=256, temperature=0.6))
     
     def ask(self, question):
         return self.send_query(self.user_story + "\n\nHuman: " + question + "\n\nAssistant")

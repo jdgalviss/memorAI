@@ -48,6 +48,13 @@ def logout():
     return redirect(url_for('index'))
 
 @login_required
+@app.route('/profile', methods=['GET', 'POST'])
+def profile():
+    return render_template('profile.html', title='Profile', name=current_user.username,
+                            birth_place=current_user.birth_place, birth_year=current_user.birth_year,
+                            favorite_artist=current_user.favorite_band,favorite_film=current_user.favorite_film)
+
+@login_required
 @app.route('/journal', methods=['GET', 'POST'])
 def journal():
     return render_template('journal.html', title='Journal')
