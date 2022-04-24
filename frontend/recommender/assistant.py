@@ -32,21 +32,26 @@ class Assistant(object):
     def recommend_film(self):
         recommendation = self.send_query(templates.film_query.format(self.user.favorite_film))
         recommendation = recommendation.replace('\n\n','').split('\n')
-        recommendation = recommendation[random.randint(0,1)][3:]
+        recommendation = recommendation[random.randint(1,3)][3:]
         return (recommendation,
                 self.send_query(templates.query.format("the film" + recommendation), max_tokens=256, temperature=0.4))
 
     def recommend_band(self):
         recommendation = self.send_query(templates.band_query.format(self.user.favorite_band))
+        print(recommendation)
         recommendation = recommendation.replace('\n\n','').split('\n')
-        recommendation = recommendation[random.randint(0,1)][3:]
+        print(recommendation)
+
+        recommendation = recommendation[random.randint(0,2)][3:]
+        print(recommendation)
+
         return (recommendation, 
                 self.send_query(templates.query.format("the artist " + recommendation), max_tokens=256, temperature=0.4))
 
     def recommend_song(self):
         recommendation = self.send_query(templates.song_query.format(self.user.favorite_band))
         recommendation = recommendation.replace('\n\n','').split('\n')
-        recommendation = recommendation[random.randint(0,1)][3:]
+        recommendation = recommendation[random.randint(0,2)][3:]
         return recommendation
 
     def recommend_event(self):
