@@ -17,6 +17,7 @@ class Assistant(object):
     
     def initialize(self, user):
         if(not self.is_initialized):
+            self.is_initialized = True
             self.user = user
             self.user_story = templates.my_story.format(self.user.username, self.user.birth_year, 
                                                             self.user.birth_place, self.user.current_place, 
@@ -31,21 +32,21 @@ class Assistant(object):
     def recommend_film(self):
         recommendation = self.send_query(templates.film_query.format(self.user.favorite_film))
         recommendation = recommendation.replace('\n\n','').split('\n')
-        recommendation = recommendation[random.randint(0,2)][3:]
+        recommendation = recommendation[random.randint(0,1)][3:]
         return (recommendation,
                 self.send_query(templates.query.format("the film" + recommendation), max_tokens=256, temperature=0.4))
 
     def recommend_band(self):
         recommendation = self.send_query(templates.band_query.format(self.user.favorite_band))
         recommendation = recommendation.replace('\n\n','').split('\n')
-        recommendation = recommendation[random.randint(0,4)][3:]
+        recommendation = recommendation[random.randint(0,1)][3:]
         return (recommendation, 
                 self.send_query(templates.query.format("the artist " + recommendation), max_tokens=256, temperature=0.4))
 
     def recommend_song(self):
         recommendation = self.send_query(templates.song_query.format(self.user.favorite_band))
         recommendation = recommendation.replace('\n\n','').split('\n')
-        recommendation = recommendation[random.randint(0,2)][3:]
+        recommendation = recommendation[random.randint(0,1)][3:]
         return recommendation
 
     def recommend_event(self):

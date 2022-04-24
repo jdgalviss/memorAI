@@ -84,6 +84,7 @@ def audio():
     print(text_entry)
     # Add Text to My Story
     assistant.add_info_user_story(text_entry)
+    print(assistant.user_story)
     return text_entry
 
 @login_required
